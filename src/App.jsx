@@ -45,8 +45,10 @@ function App() {
 
       setMoviesList(data.results || []);
     } catch (error) {
-      console.error('Error fetching movies : ${error}');
+      console.error(`Error fetching movies : ${error}`);
       setErrorMessage('Error fetching movies. Please try again.');
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -72,7 +74,18 @@ function App() {
           </header>
          <section className="all-movies">
           <h2>All Movies</h2>
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+          {isLoading ? (
+            <p className="loading">Loading...</p>
+          ) : errorMessage ? (
+            <p className="error">{errorMessage}</p>
+          ): (
+          <ul>
+              {moviesList.map((movie)=>(
+                <p className="">{movie.title}</p>
+              ))}
+            </ul>)}
+
          </section>
         </div>
       </main>
