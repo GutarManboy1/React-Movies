@@ -82,7 +82,7 @@ function App() {
           ): (
           <ul>
               {moviesList.map((movie)=>(
-                <p className="">{movie.title}</p>
+                <p className="movie">{movie.title}</p>
               ))}
             </ul>)}
 
