@@ -1,6 +1,7 @@
 import "./index.css";
 import "./App.css";
 import Search from "./components/Search";
+import Spinner from "./components/Spinner";
 import { useState, useEffect } from "react";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
@@ -46,7 +47,7 @@ function App() {
       setMoviesList(data.results || []);
     } catch (error) {
       console.error(`Error fetching movies : ${error}`);
-      setErrorMessage('Error fetching movies. Please try again.');
+      setErrorMessage(`Error fetching movies. Please try again.`);
     }finally {
       setIsLoading(false);
     }
@@ -76,13 +77,13 @@ function App() {
           <h2>All Movies</h2>
 
           {isLoading ? (
-            <p className="loading">Loading...</p>
+            <Spinner />
           ) : errorMessage ? (
             <p className="error">{errorMessage}</p>
           ): (
           <ul>
               {moviesList.map((movie)=>(
-                <p className="movie">{movie.title}</p>
+                <p key={movie.id} className="trending">{movie.title}</p>
               ))}
             </ul>)}
 
