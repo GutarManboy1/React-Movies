@@ -17,9 +17,9 @@ const API_OPTIONS = {
 };
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [moviesList, setMoviesList] = useState([]);
 
@@ -27,19 +27,20 @@ function App() {
 
   const fetchMovies = async () => {
     setIsLoading(true);
-    setErrorMessage('');
+    setErrorMessage("");
 
     try {
-      const endpoint= `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
       const response = await fetch(endpoint, API_OPTIONS);
-      
+      // alert(response) use this alert to check if the api is actually fetching any info
+
       if (!response.ok) {
-        throw new Error('Failed to fetch movies');
+        throw new Error("Failed to fetch movies");
       }
       const data = await response.json();
-      
-      if(data.Response === 'False') {
-        setErrorMessage(data.Error || 'Failed to fetch movies');
+
+      if (data.Response === "False") {
+        setErrorMessage(data.Error || "Failed to fetch movies");
         setMoviesList([]);
         return;
       }
@@ -48,14 +49,14 @@ function App() {
     } catch (error) {
       console.error(`Error fetching movies : ${error}`);
       setErrorMessage(`Error fetching movies. Please try again.`);
-    }finally {
+    } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchMovies();
-  }, []);
+  }, []); // the empty dependency array makes sure that it loads only at the start
 
   return (
     <>
@@ -71,23 +72,25 @@ function App() {
               Find <span className="text-gradient">Movies</span> You'll Love
               without the Work
             </h1>
-             <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+            <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </header>
-         <section className="all-movies">
-          <h2>All Movies</h2>
+          <section className="all-movies">
+            <h2>All Movies</h2>
 
-          {isLoading ? (
-            <Spinner />
-          ) : errorMessage ? (
-            <p className="error">{errorMessage}</p>
-          ): (
-          <ul>
-              {moviesList.map((movie)=>(
-                <p key={movie.id} className="trending">{movie.title}</p>
-              ))}
-            </ul>)}
-
-         </section>
+            {isLoading ? (
+              <Spinner />
+            ) : errorMessage ? (
+              <p className="error">{errorMessage}</p>
+            ) : (
+              <ul>
+                {moviesList.map((movie) => (
+                  <p key={movie.id} className="trending">
+                    {movie.title}
+                  </p>
+                ))}
+              </ul>
+            )}
+          </section>
         </div>
       </main>
     </>
