@@ -330,6 +330,28 @@ header img {
   z-index: 10;
 }
 
+.spinner {
+  width: 32px; /* 8 * 4 */
+  height: 32px; /* 8 * 4 */
+  color: #e5e7eb; /* Equivalent to Tailwind's gray-200 */
+  animation: spin 1s linear infinite;
+  fill: #2563eb; /* Equivalent to Tailwind's blue-600 */
+}
+
+.dark-mode .spinner {
+  color: #4b5563; /* Equivalent to Tailwind's gray-600 */
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 .trending {
   margin-top: 5rem;
 }
