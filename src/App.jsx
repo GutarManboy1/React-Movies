@@ -2,6 +2,7 @@ import "./index.css";
 import "./App.css";
 import Search from "./components/Search";
 import Spinner from "./components/Spinner";
+import MovieCard from "./components/MovieCard";
 import { useState, useEffect } from "react";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
@@ -38,6 +39,8 @@ function App() {
         throw new Error("Failed to fetch movies");
       }
       const data = await response.json();
+
+      // console.log (data); use this to see the json data that is being fetched in the console, and it works.
 
       if (data.Response === "False") {
         setErrorMessage(data.Error || "Failed to fetch movies");
@@ -83,11 +86,11 @@ function App() {
               <p className="error">{errorMessage}</p>
             ) : (
               <ul>
-                {moviesList.map((movie) => (
-                  <p key={movie.id} className="trending">
-                    {movie.title}
-                  </p>
-                ))}
+                {moviesList.map(
+                  (movie) => (//by using the parathesis and not the curly brackets i dont have to use Return, making the code a bit cleaner also whenever mapping over it needs a KEY like movie.id
+                    <MovieCard key={movie.id} movie={movie} />
+                  )
+                )}
               </ul>
             )}
           </section>
