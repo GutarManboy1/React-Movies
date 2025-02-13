@@ -4,6 +4,8 @@ import Search from "./components/Search";
 import Spinner from "./components/Spinner";
 import MovieCard from "./components/MovieCard";
 import { useState, useEffect } from "react";
+import { useDebounce } from "react-use";
+import { getTrendingMovies, updateSearchCount } from "./appwrite";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 
@@ -24,14 +26,28 @@ function App() {
 
   const [moviesList, setMoviesList] = useState([]);
 
+  const [trendingMovies, setTrendingMovies] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchMovies = async () => {
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+
+  useDebounce(
+    () => {
+      setDebouncedSearchTerm(searchTerm);
+    },
+    500,
+    [searchTerm]
+  ); //debounce prevents the search from happening for 500 milliseconds. if each letter results in a request then it would cause problems with the api
+
+  const fetchMovies = async (query = "") => {
     setIsLoading(true);
     setErrorMessage("");
 
     try {
-      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const endpoint = query
+        ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}` //encodeUriComponent makes sure that no matter what characters are in the query it will still return
+        : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
       const response = await fetch(endpoint, API_OPTIONS);
       // alert(response) use this alert to check if the api is actually fetching any info
 
@@ -49,6 +65,10 @@ function App() {
       }
 
       setMoviesList(data.results || []);
+
+      if (query && data.results.length > 0) {
+        await updateSearchCount(query, data.results[0]);
+      }
     } catch (error) {
       console.error(`Error fetching movies : ${error}`);
       setErrorMessage(`Error fetching movies. Please try again.`);
@@ -57,9 +77,23 @@ function App() {
     }
   };
 
+  const loadTrendingMovies = async () => {
+    try {
+      const movies = await getTrendingMovies();
+
+      setTrendingMovies(movies);
+    } catch {
+      console.error(`Error fetching movies : ${error}`);
+    }
+  };
+
   useEffect(() => {
-    fetchMovies();
-  }, []); // the empty dependency array makes sure that it loads only at the start
+    fetchMovies(debouncedSearchTerm);
+  }, [debouncedSearchTerm]); // the empty dependency array makes sure that it loads only at the start / the debounceSearchTerm stops the server from making a request for up to 500 milliseconds
+
+  useEffect(() => {
+    loadTrendingMovies();
+  }, []);
 
   return (
     <>
@@ -77,6 +111,20 @@ function App() {
             </h1>
             <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </header>
+
+          {trendingMovies.length > 0 && (
+            <section className="trending ul li p">
+              <h2>Trending Movies</h2>
+              <ul className="trending ul li p">
+                {trendingMovies.map((movie, index) => (
+                  <li key={movie.$id}>
+                    <p>{index + 1}</p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
           <section className="all-movies">
             <h2>All Movies</h2>
 
@@ -87,7 +135,9 @@ function App() {
             ) : (
               <ul>
                 {moviesList.map(
-                  (movie) => (//by using the parathesis and not the curly brackets i dont have to use Return, making the code a bit cleaner also whenever mapping over it needs a KEY like movie.id
+                  (
+                    movie //by using the parathesis and not the curly brackets i dont have to use Return, making the code a bit cleaner also whenever mapping over it needs a KEY like movie.id
+                  ) => (
                     <MovieCard key={movie.id} movie={movie} />
                   )
                 )}
