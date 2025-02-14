@@ -252,6 +252,7 @@ body {
   font-family: "DM Sans", serif;
   font-optical-sizing: auto;
   background: var(--color-primary);
+  
 }
 
 h1 {
@@ -355,6 +356,7 @@ header img {
 
 .trending {
   margin-top: 5rem;
+  color: white;
 }
 
 .trending ul {
@@ -365,6 +367,7 @@ header img {
   margin-top: -2.5rem;
   width: 100%;
   scrollbar-width: none;
+  color: white;
 }
 
 .trending ul::-webkit-scrollbar {
@@ -420,16 +423,18 @@ header img {
 
 .search input {
   width: 100%;
-  background: transparent;
+  background: rgb(248, 246, 246);
+  border-radius: 5px;
   padding: 0.5rem 2.5rem 0.5rem 2.5rem;
   font-size: 1rem;
   color: var(--color-gray-100);
   outline: none;
+  border: none;
 }
 
 .all-movies {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat (1, 1fr);
   gap: 1.25rem;
   color: white;
 }
@@ -523,7 +528,7 @@ header img {
   scrollbar-width: none;
 }
 
-.hide-scrollbar::-webkit-scrollbar {
+::-webkit-scrollbar {
   display: none;
 }
 
