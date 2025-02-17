@@ -112,11 +112,11 @@ function App() {
             <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </header>
 
-          {trendingMovies.length > 0 && (
-          <section>
-            <h2 className="trending">Trending Movies</h2>
+          {/* {trendingMovies.length > 0 && ( */}
+          <section className="trending">
+            <h2>Trending Movies</h2>
 
-            <ul className="trending ul li p">
+            <ul>
               {trendingMovies.map((movie, index) => (
                 <li key={movie.$id}>
                   <p>{index + 1}</p>
@@ -125,11 +125,9 @@ function App() {
               ))}
             </ul>
           </section>
-        )}
 
+          <h2>All Movies</h2>
           <section className="all-movies">
-            <h2>All Movies</h2>
-
             {isLoading ? (
               <Spinner />
             ) : errorMessage ? (
