@@ -252,7 +252,6 @@ body {
   font-family: "DM Sans", serif;
   font-optical-sizing: auto;
   background: var(--color-primary);
-  
 }
 
 h1 {
@@ -278,6 +277,8 @@ h2 {
   font-weight: bold;
   color: white;
   margin-top: 40px;
+  display: flex;
+  align-items: center;
 }
 
 @media (min-width: 640px) {
@@ -353,10 +354,12 @@ header img {
   }
 }
 
-
 .trending {
+  display: block;
+  min-height:200px ;
   margin-top: 5rem;
   color: white;
+  border: 1px solid blue;
 }
 
 .trending ul {
@@ -433,10 +436,13 @@ header img {
 }
 
 .all-movies {
-  display: grid;
-  grid-template-columns: repeat (1, 1fr);
-  gap: 1.25rem;
+  /* display: block !important; */
+  display: grid !important;
+  margin-top: 5px;
+  grid-template-columns: repeat(1, 1fr) !important;
+  /* the grid wont work for some reason and i dont know why to i have it repeat to 1 */
   color: white;
+  /* border: 1px solid red; in order to debug and see */
 }
 
 @media (min-width: 480px) {
@@ -537,3 +543,4 @@ header img {
   margin-top: 1rem;
   text-align: center;
 }
+
