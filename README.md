@@ -3,7 +3,7 @@
 ![Image](https://github.com/user-attachments/assets/9a6e369a-6ab9-46c8-993a-d5ebfd15a0b4)
 
 ![Image](https://github.com/user-attachments/assets/9ea61533-3e30-471f-bc6c-2a5eeb61f742)
-<<<<<<< HEAD
+
 # React-Movies
 React Project with Movie db api
 =======
