@@ -112,21 +112,21 @@ function App() {
             <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </header>
 
-          {/* {trendingMovies.length > 0 && ( */}
-          <section className="trending">
-            <h2>Trending Movies</h2>
+          {trendingMovies.length > 0 && (
+            <section className="trending">
+              <h2 className="mb-50">Trending Movies</h2>
 
-            <ul>
-              {trendingMovies.map((movie, index) => (
-                <li key={movie.$id}>
-                  <p>{index + 1}</p>
-                  <img src={movie.poster_url} alt={movie.title} />
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <h2>All Movies</h2>
+              <ul>
+                {trendingMovies.map((movie, index) => (
+                  <li key={movie.$id}> since this is retrieving from the database, it is important to remember to use the dollar sign before id
+                    <p>{index + 1}</p>
+                    <img src={movie.poster_url} alt={movie.title} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+          <h2 className="mt-10 mb-10">All Movies</h2>
           <section className="all-movies">
             {isLoading ? (
               <Spinner />
